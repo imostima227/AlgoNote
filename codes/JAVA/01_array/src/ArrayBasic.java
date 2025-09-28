@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 //  Java 中的数组同样用于存储相同类型的数据，并且在底层实现中也是连续存储的。
 //  但在多维数组的情况下，Java 允许创建不规则数组（jagged array），即每个嵌套数组的长度可以不同。例如：
@@ -8,10 +10,15 @@ import java.util.Arrays;
 //  arr[2] = new int[]{6, 7, 8, 9};
 public class ArrayBasic {
     public static void main(String[] args) {
-        int[] arr = {-1,-100,3,99};
+//        int[] arr = {1,2,3,4};
 //        int ans = pivotIndex(arr);
-        rotate(arr, 2);
-        System.out.println(Arrays.toString(arr));
+//        rotate(arr, 3);
+//        int[][] matrix = {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}};
+//        rotateImage1(matrix);
+        int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
+        List<Integer> list = spiralOrder(matrix);
+        System.out.println(list);
+//        System.out.println(Arrays.toString(arr));
     }
 
     // 0066
@@ -78,16 +85,151 @@ public class ArrayBasic {
         // 提交后发现，虽然之前的代码写的比较冗余且思路繁杂，但是速度比第二次提交的要快很多，而内存仅仅多了1mb（之前是45.2mb，之后是44.4mb）
         //
     }
-    //189
-    public static void rotate(int[] nums, int k) {
+    // 0189
+    public static void rotate_self(int[] nums, int k) {
+        // 解法不对，还是没想清楚
         // 一共需要移动nums.length次
+        // 有两种情况：第一种是k < len, 第二种是k > len
+        // 对于k < len : len能够整除k，需要统计；len不能整除k
+        // 对于k > len : k能够整除len，直接返回即可；k不能整除len，令k = k % len
         int idx = 0, pre = nums[0];
-        for (int i = 0; i < nums.length; i++) {
-            int nextIdx = (idx + k) % nums.length;
-            int tmp = nums[nextIdx];
-            nums[nextIdx] = pre;
-            pre = tmp;
-            idx = nextIdx;
+        // 不能除0
+        if (k == 0 || (k > nums.length && k % nums.length == 0))
+            return;
+        if (k > nums.length)
+            k = k % nums.length;
+
+        if (nums.length % k != 0) {
+            for (int i = 0; i < nums.length; i++) {
+                int nextIdx = (idx + k) % nums.length;
+                int tmp = nums[nextIdx];
+                nums[nextIdx] = pre;
+                pre = tmp;
+                idx = nextIdx;
+            }
+        }
+        else {
+            int cnt = nums.length / k;
+            for (int i = 0; i < nums.length; i++) {
+                if(cnt-- <= 0) {
+                    idx += 1;
+                    cnt = nums.length / k - 1;
+                    pre = nums[idx];
+                }
+                int nextIdx = (idx + k) % nums.length;
+                int tmp = nums[nextIdx];
+                nums[nextIdx] = pre;
+                pre = tmp;
+                idx = nextIdx;
+            }
         }
     }
+
+    public static void rotate(int[] nums, int k) {
+        // 解法1： 采用最小公倍数
+        int cnt = gcd(k, nums.length);
+        for (int start = 0; start < cnt; start++) {
+            int cur = start, pre = nums[start];
+            do {
+                int next = (cur + k) % nums.length;
+                int tmp = nums[next];
+                nums[next] = pre;
+                pre = tmp;
+                cur = next;
+            } while (start != cur);
+        }
+
+
+    }
+
+    public static int gcd(int x, int y) {
+        return y > 0 ? gcd(y, x % y) : x;
+    }
+
+    public static void rotate2(int[] nums, int k) {
+        int start = 0, end = nums.length - 1;
+        reverse(nums, start, end);
+        reverse(nums, start, k - 1);
+        reverse(nums, k, end);
+    }
+
+    public static void reverse(int[] nums, int start, int end) {
+        while(start < end) {
+            int tmp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = tmp;
+            start++;
+            end--;
+        }
+    }
+
+    // 0048
+    public static void rotateImage(int[][] matrix) {
+        // 自己写的，一遍过了。不过有些细节考虑的还是不到位，以后写题目要多思考细节
+        int n = matrix.length;
+        for (int layer = 0; layer < n / 2; layer++) {
+
+            for (int k = 0; k < n - layer * 2 - 1; k++) {
+                int i = layer;
+                int j = layer + k;
+                int pre = matrix[i][j];
+                do {
+                    int next_i = j;
+                    int next_j = n - 1 - i;
+                    int tmp = matrix[next_i][next_j];
+                    matrix[next_i][next_j] = pre;
+                    pre = tmp;
+                    i = next_i;
+                    j = next_j;
+                } while ((i != layer) || (j != layer + k));
+            }
+        }
+    }
+
+    public static void rotateImage1(int[][] matrix) {
+        // 事实上我还是写的复杂了，官方题解的做法要比我写的清楚很多
+        // 研究完官方的感觉我写的也没毛病，某种程度上是更清晰的写法
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i ++) {
+            for (int j = 0; j < (n + 1) / 2; j ++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[n - 1 - j][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = tmp;
+            }
+        }
+    }
+
+    // 0054
+    public static List<Integer> spiralOrder(int[][] matrix) {
+        // 这个题目我有点没想到怎么模拟，需要定期复习一下
+        List<Integer> list = new ArrayList<>();
+        int up = 0, down = matrix.length - 1, left = 0, right = matrix[0].length - 1;
+        while (true) {
+            for (int i = left; i <= right; i++) {
+                list.add(matrix[up][i]);
+            }
+            up ++;
+            if (up > down) break;
+            for (int i = up; i <= down; i++) {
+                list.add(matrix[i][right]);
+            }
+            right --;
+            if (right < left) break;
+            for (int i = right; i >= left; i--) {
+                list.add(matrix[down][i]);
+            }
+            down --;
+            if (down < up) break;
+            for (int i = down; i >= up; i--) {
+                list.add(matrix[i][left]);
+            }
+            left ++;
+            if (left > right) break;
+        }
+
+        return list;
+    }
+
 }
