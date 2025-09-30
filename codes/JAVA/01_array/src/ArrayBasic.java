@@ -15,10 +15,12 @@ public class ArrayBasic {
 //        rotate(arr, 3);
 //        int[][] matrix = {{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}};
 //        rotateImage1(matrix);
-        int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
-        List<Integer> list = spiralOrder(matrix);
-        System.out.println(list);
-//        System.out.println(Arrays.toString(arr));
+//        int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
+        int[][] matrix = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
+//        List<Integer> list = spiralOrder(matrix);
+//        System.out.println(list);
+        int[] list = findDiagonalOrder2(matrix);
+        System.out.println(Arrays.toString(list));
     }
 
     // 0066
@@ -232,4 +234,63 @@ public class ArrayBasic {
         return list;
     }
 
+    // 0498
+    public static int[] findDiagonalOrder(int[][] mat) {
+        int col = mat[0].length, row = mat.length;
+        int[] res = new int[row * col];
+        int[][] direction = {{-1, 1}, {1,-1}};
+        int res_idx = 0;
+        int i = 0, j = 0, dir_idx = 0;
+        for (int cnt = 0; cnt < col * row; cnt++) {
+            res[res_idx++] = mat[i][j];
+            int next_i = i + direction[dir_idx][0];
+            int next_j = j + direction[dir_idx][1];
+            // 右移
+            if ((dir_idx == 0 && next_i < 0 && next_j < col) ||
+                    (dir_idx == 1 &&  next_i >= row && next_j >= 0) ||
+                    (dir_idx == 1 && next_j < 0 && next_i >= row)) {
+                j++;
+                dir_idx = (dir_idx + 1) % 2;
+            }
+            // 下移
+            else if (dir_idx == 1 && next_j < 0 || dir_idx == 0 && next_j >= col && next_i >= 0 || dir_idx == 0 && next_i < 0) {
+                i++;
+                dir_idx = (dir_idx + 1) % 2;
+            }
+            else {
+                i = next_i;
+                j = next_j;
+            }
+
+        }
+        return res;
+    }
+
+    public static int[] findDiagonalOrder2(int[][] mat) {
+        // 尝试遍历对角线
+        int col = mat[0].length, row = mat.length;
+        int [] res = new int[row * col];
+        int idx = 0;
+        for (int cnt = 0; cnt < row + col - 1; cnt++) {
+            if (cnt % 2 == 0) { // 沿右上
+                int i = cnt < row ? cnt : row - 1;
+                int j = cnt < row ? 0 : cnt - row + 1;
+                while (i >= 0 && j < col) {
+                    res[idx++] = mat[i][j];
+                    i--;
+                    j++;
+                }
+            } else { // 沿左下
+                int i =  cnt < col ? 0 : cnt - col + 1;
+                int j = cnt < col ? cnt : col - 1;
+                while (i < row && j >= 0) {
+                    res[idx++] = mat[i][j];
+                    i ++;
+                    j --;
+                }
+            }
+        }
+
+        return res;
+    }
 }
