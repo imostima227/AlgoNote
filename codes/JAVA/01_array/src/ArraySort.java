@@ -2,9 +2,9 @@ import java.util.Arrays;
 
 public class ArraySort {
     public static void main(String[] args) {
-        int[] nums = {7,5,6,4};
-        int ans = reversePairs(nums);
-        System.out.println(ans);
+        int[] nums = {34, 7, 23, 32, 5, 62};
+        quicksort(nums);
+        System.out.println(Arrays.toString(nums));
     }
 
     public static void bubbleSort(int[] nums){
@@ -74,6 +74,7 @@ public class ArraySort {
         }
     }
 
+    // 归并
     public static void mergeSort(int[] nums){
         if (nums == null || nums.length < 2) {
             return;
@@ -151,4 +152,44 @@ public class ArraySort {
         return cnt;
     }
 
+    // 快排
+    public static void quicksort(int[] nums) {
+        sort(nums, 0, nums.length - 1);
+    }
+
+    public static void sort(int[] nums, int left, int right) {
+        if (left < right) {
+            int pivot = partition(nums, left, right);
+            sort(nums, left, pivot - 1);
+            sort(nums, pivot + 1, right);
+        }
+    }
+
+    public static int partition(int[] nums, int left, int right) {
+        int pivot = nums[left];
+        int i = left, j = right;
+        while (i < j){
+            while (i < j && nums[j] >= pivot){
+                j --;
+            }
+            while (i < j && nums[i] <= pivot){
+                i ++;
+            }
+            swap(nums, i, j);
+        }
+        swap(nums, left, i);
+        return i;
+    }
+
+    public static void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
 }
+
+
+
+
+
