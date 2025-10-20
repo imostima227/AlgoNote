@@ -5,8 +5,10 @@ import java.util.Arrays;
 public class ArraySort {
     public static void main(String[] args) {
         int[] nums = {34, 7, 23, 32, 5, 62};
-        quicksort(nums);
-        System.out.println(Arrays.toString(nums));
+//        quicksort(nums);
+        ArrayHeapSort arrayHeap = new ArrayHeapSort(nums);
+        arrayHeap.maxHeapSort();
+        System.out.println(Arrays.toString(arrayHeap.maxHeap));
     }
 
     public static void bubbleSort(int[] nums){
