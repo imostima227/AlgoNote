@@ -6,9 +6,10 @@ public class ArraySort {
     public static void main(String[] args) {
         int[] nums = {34, 7, 23, 32, 5, 62};
 //        quicksort(nums);
-        ArrayHeapSort arrayHeap = new ArrayHeapSort(nums);
-        arrayHeap.maxHeapSort();
-        System.out.println(Arrays.toString(arrayHeap.maxHeap));
+//        ArrayHeapSort arrayHeap = new ArrayHeapSort(nums);
+//        arrayHeap.maxHeapSort();
+        int[] ans = countingSort(nums);
+        System.out.println(Arrays.toString(ans));
     }
 
     public static void bubbleSort(int[] nums){
@@ -115,46 +116,7 @@ public class ArraySort {
 
     }
 
-    // LCR 170
-    // 该题目还有一个离散化树状数组的解法，暂时不细究
-    public static int reversePairs(int[] records) {
-        int[] tmp = new int[records.length];
-        return reverse_sort(records, 0, records.length -1, tmp, 0);
-    }
 
-    public static int reverse_sort(int[] records, int left, int right, int[] tmp, int cnt) {
-        // cnt 当前区间已统计的逆序对对数
-        if(left >= right){
-            return cnt;
-        }
-        int mid = (left + right) / 2;
-        int left_cnt = reverse_sort(records, left, mid, tmp, cnt);
-        int right_cnt = reverse_sort(records, mid+1, right, tmp, cnt);
-        int merge_cnt = reverse_merge(records, left, mid, right, tmp);
-        return left_cnt + right_cnt + merge_cnt;
-    }
-
-    public static int reverse_merge(int[] records, int left, int mid, int right, int[] tmp) {
-        // 返回当前区间的逆序对对数
-        System.arraycopy(records, left, tmp, left, right - left + 1);
-        int i = left;
-        int j = mid + 1;
-        int k = left;
-        int cnt = 0;
-        while (i <= mid && j <= right) {
-            if (tmp[i] > tmp[j]) {
-                records[k++] = tmp[j++];
-                cnt += mid - i + 1;
-            }
-            else
-                records[k++] = tmp[i++];
-        }
-        while (i <= mid) {
-            records[k++] = tmp[i++];
-        }
-
-        return cnt;
-    }
 
     // 快排
     public static void quicksort(int[] nums) {
@@ -190,6 +152,30 @@ public class ArraySort {
         nums[i] = nums[j];
         nums[j] = tmp;
     }
+
+    // 计数排序
+    public static int[] countingSort(int[] nums) {
+        if (nums == null || nums.length < 2) {
+            return nums;
+        }
+        int[] ans = new int[nums.length];
+        int max = Arrays.stream(nums).max().getAsInt();
+        int min = Arrays.stream(nums).min().getAsInt();
+        int[] count =  new int[max - min + 1];
+        for (int num : nums) {
+            count[num - min]++;
+        }
+        for (int i = 1; i < count.length; i++) {
+            count[i] += count[i - 1];
+        }
+        for (int i = nums.length - 1; i >= 0; i--) { // 逆序，为了保持“稳定性”
+            int num = nums[i];
+            ans[count[num - min] - 1] = num;
+            count[num - min]--;
+        }
+        return ans;
+    }
+
 
 
 }
