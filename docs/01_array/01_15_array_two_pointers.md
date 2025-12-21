@@ -345,8 +345,7 @@ while left_1 < len(nums1) and left_2 < len(nums2):
 ##### 思路 1：分离双指针
 
 1. 先对 $nums1$ 和 $nums2$ 排序。
-2. 用两个指针 $left\_1$、$left\underline{\hspace{0.
-5em}}2$ 分别从两个数组头部开始遍历。
+2. 用两个指针 $left\_1$、$left\_2$ 分别从两个数组头部开始遍历。
 3. 若 $nums1[left\_1] == nums2[left\underline
 {\hspace{0.5em}}2]$，将该元素（去重）加入结果，并同时右移 $left\_1$、$left\underline
 {\hspace{0.5em}}2$。

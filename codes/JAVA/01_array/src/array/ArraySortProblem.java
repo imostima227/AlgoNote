@@ -8,12 +8,13 @@ import java.util.Map;
 
 public class ArraySortProblem {
     public static void main(String[] args) {
-        int[] nums = {10};
+        int[] nums = new int[]{0,0,0,1};
 //        quicksort(nums);
 //        ArrayHeapSort arrayHeap = new ArrayHeapSort(nums);
 //        arrayHeap.maxHeapSort();
 //        System.out.println(maximumGap(nums));
-
+        System.out.println(longestOnes(nums, 4));
+//        System.out.println(Arrays.toString(nums));
     }
 
     // LCR 170
@@ -145,6 +146,91 @@ public class ArraySortProblem {
                 ans = Math.max(ans, bucketMin[i] - prevMax);
                 prevMax = bucketMax[i];
             }
+        }
+        return ans;
+    }
+
+    public static int findMin(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right + 1) / 2;
+            // 首先要确定mid在哪个区间
+            if (nums[mid] >= nums[0]) {
+                if (nums[left] < nums[right]) {
+                    right = mid - 1;
+                }
+                else {
+                    left = mid;
+                }
+            }
+            else {
+                if (nums[left] < nums[right]) {
+                    right = mid - 1;
+                }
+                else {
+                    if (nums[mid] >  nums[mid - 1]) {
+                        right = mid - 1;
+                    }
+                    else {
+                        left = mid;
+                        right = mid;
+                    }
+                }
+            }
+        }
+        return nums[left];
+    }
+
+    public static int removeDuplicates(int[] nums) {
+        if(nums.length == 1 || (nums.length == 2 && nums[0] == nums[1])) {
+            return 1;
+        }
+        int slow = 0, fast = 1;
+        int move = 0;
+        int total = 0;
+        while (fast < nums.length) {
+            if (nums[slow] == nums[fast]) {
+                move ++;
+                fast ++;
+            }
+            else {
+                for(int i = ++slow; i < nums.length - move; i ++) {
+                    nums[i] = nums[i + move];
+                }
+                total += move;
+                move = 0;
+                fast = slow + 1;
+            }
+        }
+        return nums.length - total;
+    }
+
+    public static int longestOnes(int[] nums, int k) {
+        int n = nums.length;
+        int left = 0, right = 0;
+        int cnt = 0, ans = 0;
+        int lnum = 0;
+        for (;left < n; left ++) {
+            if (nums[left] == 1) {
+                lnum ++;
+                continue;
+            }
+            cnt = 0;
+            right = left;
+            while (right < n && cnt < k) {
+                if (nums[right] == 0) {
+                    cnt ++;
+                }
+                right ++;
+            }
+            while (right < n && nums[right] == 1) {
+                right ++;
+            }
+            ans = Math.max(ans, right - left + lnum);
+            lnum = 0;
         }
         return ans;
     }

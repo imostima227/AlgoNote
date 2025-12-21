@@ -18,3 +18,13 @@ export function arrayToList(arr) {
     }
     return listHead;
 }
+
+export function printList(head) {
+    let currentNode = head;
+    const values = [];
+    while (currentNode) {
+        values.push(currentNode.val);
+        currentNode = currentNode.next;
+    }
+    console.log(values.join(" -> "));
+}
