@@ -1,26 +1,44 @@
+<div align='center'>
+    <img src="https://qcdn.itcharge.cn/images/20250925092713.png" alt="alt text" width="100%"/>
+    <h1>算法通关手册</h1>
+</div>
+
+<div align="center">
+  <img src="https://img.shields.io/github/stars/ITCharge/AlgoNote?style=flat&logo=github" alt="GitHub stars"/>
+  <img src="https://img.shields.io/github/forks/ITCharge/AlgoNote?style=flat&logo=github" alt="GitHub forks"/>
+  <img src="https://img.shields.io/badge/language-Chinese%20%7C%20Python-brightgreen?style=flat" alt="Language"/>
+  <a href="https://github.com/ITCharge/AlgoNote"><img src="https://img.shields.io/badge/GitHub-Project-blue?style=flat&logo=github" alt="GitHub Project"/></a>
+  <p></p>
+  <h3>📚 从零开始的「算法与数据结构」学习教程</h3>
+  <p><em>一本系统讲解算法与数据结构、涵盖 LeetCode 题解的中文学习手册</em></p>
+</div>
+
+<div align="center">
+  <a href="https://algo.itcharge.cn/">
+    <img src="https://qcdn.itcharge.cn/images/btn_read_online.svg" width="145" alt="在线阅读"></a>
+  <a href="https://github.com/itcharge/AlgoNote/releases">
+    <img src="https://qcdn.itcharge.cn/images/btn_download_pdf.svg" width="145" alt="PDF 下载"></a>
+</div>
+
+如果觉得本项目对你有帮助，欢迎点亮 🌟 Star，支持一下!
+
 ## 1. 本书简介
 
 本书不仅仅只是一本算法题解书，更是一本算法与数据结构基础知识的讲解书。
 
-- 超详细的 **「算法与数据结构」** 基础讲解教程，**「LeetCode 800+ 道」** 经典题目详细解析。
+- 超详细的 **「算法与数据结构」** 基础讲解教程，**「LeetCode 1000+ 道」** 经典题目详细解析。
 - 本项目易于理解，没有大跨度的思维跳跃，项目中使用大量图示、例子来帮助理解。
 - 本项目先从基础的数据结构和算法开始讲解，再针对不同分类的数据结构和算法，进行具体题目的讲解分析。让读者可以通过「算法基础理论学习」和「编程实战学习」相结合的方式，彻底的掌握算法知识。
 - 本项目从各大知名互联网公司面试算法题中整理汇总了 **「LeetCode 200 道高频面试题」**，帮助面试者更有针对性的准备面试。
 
-### 1.1 源码地址
-
-本书内容及代码都放在 [Github repo](https://github.com/itcharge/AlgoNote) 中，欢迎在下方项目中 **「Star ⭐️ 」** 和 **「Fork」**，这是对我最大的鼓励和支持。
-
-- Github 地址：[https://github.com/itcharge/AlgoNote](https://github.com/itcharge/AlgoNote)
-
-### 1.2 目标读者
+### 1.1 目标读者
 
 - 拥有 Python 编程基础或其他编程语言基础的编程爱好者
 - 对 LeetCode 刷题感兴趣或准备算法面试的面试人员
 - 对算法感兴趣的计算机专业学生或程序员
 - 想要提升编程思维和问题解决能力的开发者
 
-### 1.3 内容结构
+### 1.2 内容结构
 
 本书采用算法与数据结构相结合的方法，把内容分为如下几个主要部分：
 
@@ -36,13 +54,13 @@
 - **9. 附加内容**：作为全书的扩展模块。
 - **10. 题目解析**：讲解 LeetCode 上刷过的所有题目，可按照对应题号进行检索和学习。
 
-### 1.4 使用说明
+### 1.3 使用说明
 
-- 本电子书的左侧为所有章节目录导航，可直接点击对应章节跳转阅读。
-- 本电子书左上角有搜索栏，可以帮你迅速找到想看的章节和题解文章。
-- 本电子书每页都接入了 giscus 评论系统，可在每页下方的评论框进行评论（需使用 GitHub 账号登录）。
-- 建议按照章节顺序学习，循序渐进地掌握各个知识点。
-- 每章末尾都配有练习题，建议及时完成以巩固所学知识。
+- 本电子书左侧提供了完整的章节目录导航，可直接点击跳转至相应内容。
+- 本电子书右上角配有搜索栏，便于快速查找所需章节和题解文章。
+- 本电子书集成了 giscus 评论系统，欢迎在页面底部评论区留言（需 GitHub 账号登录）。
+- 建议按章节顺序系统学习，逐步掌握各知识点；也可根据兴趣自由选择章节阅读。
+- 每篇内容末尾设有练习题，建议及时完成以加深理解、巩固所学。
 
 ## 2. 相关说明
 
@@ -50,7 +68,7 @@
 
 我是一名 iOS / macOS 的开发程序员，研究生毕业于北航软件学院。曾在大学期间学习过算法知识，并参加过 3 年的 ACM 比赛， 但水平有限，未能取得理想成绩。但是这 3 年的 ACM 经历，给我最大的收获是锻炼了自己的逻辑思维和解决实际问题的能力，这种能力为我今后的工作、学习打下了坚实的基础。
 
-我从 2021 年 03 月 30 日开始每日在 LeetCode 刷题，到 2022 年 06 月 08 日已经刷了 1000+ 道题目，并且完成了 800+ 道题解。努力向着 1000+、1500+、2000+ 道题解前进。
+我从 2021 年 03 月 30 日开始每日在 LeetCode 刷题，到目前为止日已经刷了 1800+ 道题目，并且完成了 1000+ 道题解。努力向着 1500+、2000+ 道题解前进。
 
 ### 2.2 互助与勘误
 

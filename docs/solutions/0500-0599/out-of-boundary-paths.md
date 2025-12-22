@@ -86,9 +86,9 @@ class Solution:
 
 ### 思路 2：动态规划
 
-我们需要统计从 $(startRow, startColumn)$ 位置出发，最多移动 $maxMove$ 次能够穿过边界的所有路径数量。则我们可以根据位置和移动步数来划分阶段和定义状态。
+我们需要统计从 $(startRow, startColumn)$ 位置出发，最多移动 $maxMove$ 次能够穿过边界的所有路径数量。则我们可以根据位置和移动步数来阶段划分和定义状态。
 
-###### 1. 划分阶段
+###### 1. 阶段划分
 
 按照位置进行阶段划分。
 
@@ -119,7 +119,7 @@ class Solution:
         mod = 10 ** 9 + 7
         
         dp = [[[0 for _ in range(maxMove + 1)] for _ in range(n)] for _ in range(m)]
-        for i in r
+        
         for k in range(1, maxMove + 1):
             for i in range(m):
                 for j in range(n):
