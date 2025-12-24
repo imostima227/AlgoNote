@@ -43,11 +43,39 @@ function selectionSort(head) {
     return head;
 }
 
+// 插入排序
+function insertionSort(head) {
+    if (head == null && head.next == null) {
+        return head;
+    }
+    let cur = head;
+    let tail = head;
+    while(cur != null) {
+        if (cur.val >= tail.val) { // 已在正确位置
+            tail = cur;
+        }
+        else {
+            pre = head;
+            while (pre.next.val <= cur.val) {
+                pre = pre.next;
+            }
+            tail.next = cur.next;
+            cur.next = pre.next;
+            pre.next = cur;
+        }
+        cur = tail.next;
+    }
+
+    return head;
+}
+
 function main() {
     const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0];
     const head = arrayToList(arr);
     // printList(bubbleSort(head))
-    printList(selectionSort(head))
+    // printList(selectionSort(head))
+    printList(insertionSort(head))
+    
 }
 
 main()
