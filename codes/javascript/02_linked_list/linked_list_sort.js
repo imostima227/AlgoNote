@@ -1,4 +1,4 @@
-import { arrayToList, printList } from "./definition.js";
+import { arrayToList, ListNode, printList } from "./definition.js";
 
 // 冒泡排序
 function bubbleSort(head) {
@@ -50,12 +50,14 @@ function insertionSort(head) {
     }
     let cur = head;
     let tail = head;
+    let dummy_head = new ListNode();
+    dummy_head.next = head;
     while(cur != null) {
         if (cur.val >= tail.val) { // 已在正确位置
             tail = cur;
         }
         else {
-            pre = head;
+            let pre = dummy_head;
             while (pre.next.val <= cur.val) {
                 pre = pre.next;
             }
@@ -66,7 +68,34 @@ function insertionSort(head) {
         cur = tail.next;
     }
 
-    return head;
+    return dummy_head.next;
+}
+
+// 147.对链表进行插入排序
+function insertionSortList(head) {
+    if (head == null && head.next == null) {
+        return head;
+    }
+    let node_i = head;
+    let tail = head;
+    let dummy_head = new ListNode();
+    dummy_head.next = head;
+    while (node_i != null) {
+        if (node_i.val >= tail.val) {
+            tail = node_i;
+        }
+        else {
+            let pre = dummy_head;
+            while(pre.next.val < node_i.val) {
+                pre = pre.next;
+            }
+            tail.next = node_i.next;
+            node_i.next = pre.next;
+            pre.next = node_i;
+        }
+        node_i = tail.next;
+    }
+    return dummy_head.next;
 }
 
 function main() {
@@ -74,7 +103,7 @@ function main() {
     const head = arrayToList(arr);
     // printList(bubbleSort(head))
     // printList(selectionSort(head))
-    printList(insertionSort(head))
+    printList(insertionSortList(head))
     
 }
 
