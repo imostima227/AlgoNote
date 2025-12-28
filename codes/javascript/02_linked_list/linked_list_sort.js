@@ -98,12 +98,54 @@ function insertionSortList(head) {
     return dummy_head.next;
 }
 
+// 归并排序
+function merge(left, right) {
+    let dummy_head = new ListNode();
+    let cur = dummy_head;
+    while (left != null && right != null) {
+        if (left.val <= right.val) {
+            cur.next = left;
+            left = left.next;
+        }
+        else {
+            cur.next = right;
+            right = right.next;
+        }
+        cur = cur.next;
+    }
+    if (left != null) {
+        cur.next = left;
+    }
+    else if(right != null) {
+        cur.next = right;
+    }
+    return dummy_head.next;
+}
+
+function mergeSort(head) {
+    if (head == null || head.next == null) {
+        return head;
+    }
+    let slow = head;
+    let fast = head.next;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    let left_head = head, right_head = slow.next;
+    slow.next = null;
+
+    left_head = mergeSort(left_head);
+    right_head = mergeSort(right_head);
+    return merge(left_head, right_head);
+}
+
 function main() {
     const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0];
     const head = arrayToList(arr);
     // printList(bubbleSort(head))
     // printList(selectionSort(head))
-    printList(insertionSortList(head))
+    printList(mergeSort(head))
     
 }
 
