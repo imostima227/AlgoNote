@@ -140,12 +140,49 @@ function mergeSort(head) {
     return merge(left_head, right_head);
 }
 
+// 快速排序
+function partition(left, right) {
+    if (left == right || left.next == right)
+        return left;
+    
+    let node_i = left, node_j = left.next;
+    while (node_j != right) {
+        if (node_j.val < left.val) {
+            node_i = node_i.next;
+            [node_i.val, node_j.val] = [node_j.val, node_i.val];
+        }
+        node_j = node_j.next;
+    }
+
+    [node_i.val, left.val] = [left.val, node_i.val];
+    return node_i;
+}
+
+function quickSortFunction(left, right) {
+    if (left == right || left.next == right)
+        return left;
+
+    let pivot = partition(left, right);
+    quickSortFunction(left, pivot);
+    quickSortFunction(pivot.next, right);
+
+    return left;
+}
+
+function quickSort(head) {
+    if (head == null || head.next == null)
+        return head;
+
+    return quickSortFunction(head, null);
+}
+
 function main() {
     const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0];
     const head = arrayToList(arr);
     // printList(bubbleSort(head))
     // printList(selectionSort(head))
-    printList(mergeSort(head))
+    // printList(mergeSort(head))
+    printList(quickSort(head))
     
 }
 
