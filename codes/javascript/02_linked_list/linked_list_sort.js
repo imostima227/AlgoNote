@@ -176,13 +176,112 @@ function quickSort(head) {
     return quickSortFunction(head, null);
 }
 
+// 计数排序
+function countingSort(head) {
+    if (head == null || head.next == null)
+        return head;
+
+    // 遍历链表找最大值和最小值
+    let min_value = Number.MAX_SAFE_INTEGER;
+    let max_value = Number.MIN_SAFE_INTEGER;
+    
+    let cur = head;
+    while (cur != null) {
+        min_value = Math.min(min_value, cur.val);
+        max_value = Math.max(max_value, cur.val);
+        cur = cur.next;
+    }
+
+    // 计数
+    let size = max_value - min_value + 1;
+    let arr = Array(size).fill(0);
+    cur = head;
+    while (cur != null) {
+        arr[cur.val - min_value] ++;
+        cur = cur.next;
+    }
+
+    // 排序
+    let dummy_head = new ListNode();
+    cur = dummy_head;
+    
+    for (let [idx, val] of arr.entries()) {
+        while (val > 0) {
+            let new_node = new ListNode(idx + min_value);
+            cur.next = new_node;
+            cur = cur.next;
+            val --;
+        }
+    }
+     
+    return dummy_head.next;
+}
+
+// 桶排序
+function insertBucket(buckets, index, value) {
+    if (buckets[index] == null) {
+        buckets[index] = new ListNode(value);
+        return;
+    }
+    let newHead = new ListNode(value);
+    newHead.next = buckets[index];
+    buckets[index] = newHead;
+}
+
+// bucket_size的意思是每个桶有多少个元素
+function bucketSort(head, bucket_size = 5) {
+    if (head == null || head.next == null)
+        return head;
+
+    // 找出桶中的最大元素和最小元素
+    let min_value = Number.MAX_SAFE_INTEGER;
+    let max_value = Number.MIN_SAFE_INTEGER;
+    let cur = head;
+    
+    while (cur != null) {
+        min_value = Math.min(min_value, cur.val);
+        max_value = Math.max(max_value, cur.val);
+        cur = cur.next;
+    }
+
+    // 计算桶的数量并初始化桶
+    let bucket_cnt = Math.ceil((max_value - min_value + 1) / bucket_size);
+    let buckets = new Array(bucket_cnt).fill(null);
+
+    // 给每个桶添加元素
+    cur = head;
+    while(cur != null) {
+        let idx = Math.floor((cur.val - min_value + 1) / bucket_size);
+        insertBucket(buckets, idx, cur.val);
+        cur = cur.next;
+    }
+
+    // 对每个桶进行排序
+    let dummy_head = new ListNode();
+    cur = dummy_head;
+    for (const bucket of buckets){
+        if (bucket != null) {
+            let sorted_bucket = mergeSort(bucket);
+            while (sorted_bucket != null) {
+                cur.next = sorted_bucket;
+                cur = cur.next;
+                sorted_bucket = sorted_bucket.next;                
+            }
+        }
+    }
+    
+    return dummy_head.next;
+}
+
 function main() {
-    const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0];
+    const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0 , 7, 2, 4, 4, 4, 0, 23];
     const head = arrayToList(arr);
-    // printList(bubbleSort(head))
-    // printList(selectionSort(head))
-    // printList(mergeSort(head))
-    printList(quickSort(head))
+    // printList(bubbleSort(head));
+    // printList(selectionSort(head));
+    // printList(mergeSort(head));
+    // printList(quickSort(head));
+    // printList(countingSort(head));
+    printList(bucketSort(head));
     
 }
 
