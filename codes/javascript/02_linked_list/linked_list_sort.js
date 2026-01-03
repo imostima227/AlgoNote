@@ -357,8 +357,63 @@ var removeNthFromEnd = function(head, n) {
     return dummy.next;
 };
 
+// 链表的中间节点
+var middleNode = function(head) {
+  if (head == null || head.next == null)
+    return head;
+
+  let fast = head, slow = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return slow;
+};
+
+// 合并两个升序链表
+var mergeTwoLists = function(list1, list2) {
+    let dummy_head = new ListNode();
+    let cur = dummy_head;
+    let node_i = list1, node_j = list2;
+    while(node_i && node_j) {
+        if (node_i.val <= node_j.val) {
+            cur.next = node_i;
+            node_i = node_i.next;
+        } else {
+            cur.next = node_j;
+            node_j = node_j.next;
+        }
+        cur = cur.next;
+    }
+    if (node_i) {
+        cur.next = node_i;
+    }
+    if (node_j) {
+        cur.next = node_j;
+    }
+    return dummy_head.next;
+};
+
+// 递归写法
+var mergeTwoLists1 = function(l1, l2) {
+    // 1. Base Case: 只要有一个为空，就返回另一个
+    if (!l1) return l2;
+    if (!l2) return l1;
+
+    // 2. Recursive Step: 谁小，谁就是当前的头，
+    //    然后它的 next 指向 "剩下那些节点合并后的结果"
+    if (l1.val <= l2.val) {
+        l1.next = mergeTwoLists1(l1.next, l2);
+        return l1;
+    } else {
+        l2.next = mergeTwoLists1(l1, l2.next);
+        return l2;
+    }
+};
+
 function main() {
-    const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0 , 7, 2, 4, 4, 4, 0, 23, 105, 997];
+    // const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0 , 7, 2, 4, 4, 4, 0, 23, 105, 997];
+    const arr = [1, 5, 2, 4, 10, 11];
     const head = arrayToList(arr);
     // printList(bubbleSort(head));
     // printList(selectionSort(head));
@@ -366,7 +421,8 @@ function main() {
     // printList(quickSort(head));
     // printList(countingSort(head));
     // printList(bucketSort(head));
-    printList(radixSort(head));
+    // printList(radixSort(head));
+    console.log(middleNode(head).val);
     
 }
 
