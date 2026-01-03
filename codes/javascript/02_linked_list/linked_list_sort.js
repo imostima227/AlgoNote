@@ -273,15 +273,100 @@ function bucketSort(head, bucket_size = 5) {
     return dummy_head.next;
 }
 
+// 基数排序
+
+// 把节点插入桶
+function insertToBucket(bucket, node) {
+    node.next = null; // 非常值得学习
+    if (!bucket.head) {
+        bucket.head = node;
+        bucket.tail = node;
+        return;
+    }
+    bucket.tail.next= node;
+    bucket.tail = node;
+}
+
+//
+function joinBuckets(buckets) {
+    let head = null, tail = null;
+    for(let bucket of buckets) {
+        if (!bucket.head) 
+            continue;
+        if (!head) 
+            head = bucket.head;
+        if (tail) {
+            tail.next = bucket.head;
+        }
+        tail = bucket.tail
+    }
+    if (tail) tail.next = null;
+    return head;
+}
+
+function radixSort(head) {
+    if (head == null || head.next == null)
+        return head;
+
+    // 找到最大值
+    let max_value = Number.MIN_SAFE_INTEGER;
+    for (let cur = head; cur; cur = cur.next) {
+        if (cur.val > max_value) {
+            max_value = cur.val;
+        }
+    }
+
+    // 初始化桶
+    let buckets = Array.from({length: 10}, () => ({}));
+
+    // 遍历基数
+    for(let exp = 1; exp <= max_value ; exp *= 10 ) {
+        buckets.forEach( b => {
+            b.head = null;
+            b.tail = null;
+        });
+
+        // 按照当前位分桶
+        for (let cur = head; cur; ){
+            const next = cur.next;
+            const idx = Math.floor(cur.val / exp) % 10;
+            insertToBucket(buckets[idx], cur); // TODO:待实现
+            cur = next;
+        }
+        head = joinBuckets(buckets);
+    }
+    return head;
+}
+
+// 删除链表的倒数第n个节点
+var removeNthFromEnd = function(head, n) {
+    // 创建虚拟节点
+    let dummy = new ListNode(0, head);
+    let fast = dummy, slow = dummy;
+
+    for (let i = 0; i <= n; i++) {
+        fast = fast.next;
+    }
+    
+    while (fast) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+    slow.next = slow.next.next;
+
+    return dummy.next;
+};
+
 function main() {
-    const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0 , 7, 2, 4, 4, 4, 0, 23];
+    const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0 , 7, 2, 4, 4, 4, 0, 23, 105, 997];
     const head = arrayToList(arr);
     // printList(bubbleSort(head));
     // printList(selectionSort(head));
     // printList(mergeSort(head));
     // printList(quickSort(head));
     // printList(countingSort(head));
-    printList(bucketSort(head));
+    // printList(bucketSort(head));
+    printList(radixSort(head));
     
 }
 
