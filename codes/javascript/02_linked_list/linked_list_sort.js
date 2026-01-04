@@ -411,6 +411,42 @@ var mergeTwoLists1 = function(l1, l2) {
     }
 };
 
+// 环形链表
+var hasCycle = function(head) {
+    if (!head || !head.next)
+        return false;
+    let fast = head, slow = head;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (fast === slow)
+            return true;
+    }
+    return false;
+};
+
+// 环形链表Ⅱ
+const detectCycle = function(head){
+    if (!head || !head.next) {
+        return null;
+    }
+    let fast = head, slow = head;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if (slow === fast) { // 存在环
+            // 寻找闭合点
+            slow = head;
+            while (slow !== fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            return slow;
+        }
+    }
+    return null;
+}
 function main() {
     // const arr = [1, 5, 2, 4, 10 ,23 ,77 ,11 ,0 , 7, 2, 4, 4, 4, 0, 23, 105, 997];
     const arr = [1, 5, 2, 4, 10, 11];
