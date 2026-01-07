@@ -365,4 +365,4 @@ class Solution:
 - 【书籍】数据结构与算法 Python 语言描述 - 裘宗燕 著
 - 【书籍】数据结构教程 第 3 版 - 唐发根 著
 - 【书籍】大话数据结构 程杰 著
-- 【文章】[栈 - 数据结构与算法之美 - 极客时间](https://time.geekbang.org/column/article/41222)
+  - 【文章】[栈 - 数据结构与算法之美 - 极客时间](https://time.geekbang.org/column/article/41222)	
