@@ -30,6 +30,28 @@ const dailyTemperatures = function(temperatures) {
     return ans;
 };
 
+// 去除重复字母
+const removeDuplicateLetters = function(s) {
+    const count = {};
+    for (const c of s) {
+        count[c] = (count[c] ?? 0) + 1;
+    }
+    const stack = [];
+    const inStack = new Set();
+    for (const c of s) {
+        count[c] --;
+        // 如果已经在栈中，忽略
+        if (inStack.has(c)) continue;
+        while (stack.length && c < stack.at(-1) && count[stack.at(-1)] > 0) {
+            const out = stack.pop();
+            inStack.delete(out);
+        }
+        stack.push(c);
+        inStack.add(c);
+    }
+    return stack.join('');
+};
+
 function main() {
     const n1 = [4,1,2];
     const n2 = [1,3,4,2];
