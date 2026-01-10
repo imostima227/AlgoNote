@@ -67,3 +67,30 @@ class MovingAverage {
         return this.sum / this.queue.length;
     }
 }
+
+// 用队列实现栈
+class MyStack {
+    constructor(){
+        this.queue = [];
+    }
+
+    push(x) {
+        this.queue.push(x);
+        const size = this.queue.length;
+        for(let i = 0; i < size - 1; i ++){
+            this.queue.push(this.queue.shift());
+        }
+    }
+
+    pop(){
+        return this.queue.shift();
+    }
+
+    top(){
+        return this.queue[0];
+    }
+
+    empty(){
+        return this.queue.length === 0;
+    }
+}
