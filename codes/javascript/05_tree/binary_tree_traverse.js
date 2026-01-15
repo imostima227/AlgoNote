@@ -133,7 +133,7 @@ const levelOrder = function(root) {
 
     const queue = root ? [root] : [];
 
-    while(queue.length > 0) {
+    while (queue.length > 0) {
         let n = queue.length;
         const tmp = [];
         for (let i = 0; i < n; i++ ) {
@@ -149,10 +149,41 @@ const levelOrder = function(root) {
    return res;
 };
 
+// Best Practice
+const levelOrder1 = function(root) {
+    const res = [];
+    let curLevel = root ? [root] : [];
+
+    while (curLevel.length > 0) {
+        const curValues = []; // 保存当前层的值
+        const nextLevel = [];
+
+        for (const node of curLevel) {
+            curValues.push(node.val);
+
+            if (node.left) nextLevel.push(node.left);
+            if (node.right) nextLevel.push(node.right);
+        }
+
+        res.push(curValues);
+        curLevel = nextLevel;
+    }
+
+    return res;
+}
+
+const maxDepth = function(root) {
+    if (!root) return 0;
+
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+};
+
 function main(){
     const nodes = [3,9,20,null,null,15,7];
     const root = buildBinaryTree(nodes);
-    console.log(levelOrder(root));
+    // console.log(levelOrder1(root));
+    console.log(maxDepth(root));
+    
 }
 
 main();
