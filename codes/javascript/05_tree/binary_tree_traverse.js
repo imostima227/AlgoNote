@@ -172,17 +172,50 @@ const levelOrder1 = function(root) {
     return res;
 }
 
+// 最大深度
+
 const maxDepth = function(root) {
     if (!root) return 0;
 
     return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };
 
+// 路径之和
+const hasPathSum = function(root, targetSum) {
+    
+    const dfs = function(node, curSum) {
+        if (!node) return false;
+        
+        const nextSum = node.val + curSum
+        if (nextSum === targetSum 
+            && !node.left && !node.right) {
+                return true;
+            } 
+
+        return dfs(node.left, nextSum) || dfs(node.right, nextSum);
+    }
+
+    return dfs(root, 0);
+};
+
+// 优化后写法
+const hasPathSum1 = function(root, targetSum) {
+    if (!root) return false;
+
+    const curSum = targetSum - root.val;
+    if (curSum === 0 && !root.left && !root.right) {
+        return true;
+    }
+
+    return hasPathSum1(root.left, curSum) || hasPathSum1(root.right, curSum);
+};
+
 function main(){
-    const nodes = [3,9,20,null,null,15,7];
+    const nodes = [1,2];
     const root = buildBinaryTree(nodes);
+    const targetSum = 1;
     // console.log(levelOrder1(root));
-    console.log(maxDepth(root));
+    console.log(hasPathSum(root, targetSum));
     
 }
 
