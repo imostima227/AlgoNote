@@ -122,14 +122,17 @@ class SuggestTree {
     }
 
     _dfs(node, arr, curWord) { // 返回字符串
+        if (arr.length === 3) return;
         // 边界处理
         if (node.isEnd) {
             arr.push(curWord);
         }
 
-        if (arr.length === 3) return;
+        
 
         for (const ch of node.children.keys()) {
+            if (arr.length === 3) return;
+
             this._dfs(node.children.get(ch), arr, curWord + ch);
         }
     }
