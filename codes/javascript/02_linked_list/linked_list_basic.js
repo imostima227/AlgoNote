@@ -56,6 +56,47 @@ var isPalindrome = function(head) {
     return true;
 };
 
+// 相交链表
+const getIntersectionNode = function(headA, headB) {
+    if (!headA || !headB) return null;
+    let nA = 0, nB = 0;
+    let curA = headA, curB = headB;
+    for (let node = headA; node; node = node.next) {
+        nA ++;
+    }
+    for (let node = headB; node; node = node.next) {
+        nB ++;
+    }
+
+    if (nA > nB) {
+        for (let i = 0; i < nA - nB; i++) curA = curA.next;
+    }
+    else if (nA < nB) {
+        for (let i = 0; i < nB - nA; i++) curB = curB.next;
+    }
+
+    while (curA && curB) {
+        if (curA === curB) return curA;
+        curA = curA.next;
+        curB = curB.next;
+    }
+
+    return null;
+};
+
+// 反转链表
+const reverseList = function(head) {
+    let prev = null;
+    let cur = head;
+    while (cur) {
+        const tmp = cur.next;
+        cur.next = prev;
+        prev = cur;
+        cur = tmp;
+    }
+    return prev;
+}
+
 const main = () => {
     const array = [1,2,3,4,5];
     const list = arrayToList(array);
