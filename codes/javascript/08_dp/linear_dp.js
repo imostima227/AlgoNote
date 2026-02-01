@@ -52,3 +52,40 @@ const maxSubArray = function(nums) {
 
     return Math.max(...dp);
 };
+
+// 打家劫舍
+const rob = function(nums) {
+    if (nums.length <= 2) {
+        return Math.max(...nums);
+    }
+    const n =nums.length;
+    const dp = Array(n); // dp[i]表示前i间房屋能偷到的最大金额
+
+    dp[0] = nums[0];
+    dp[1] = Math.max(dp[0], nums[1]);
+
+    for (let i = 2; i < n; i ++) {
+        dp[i] = Math.max(dp[i-1], nums[i] + dp[i-2]);
+    }
+
+    return dp[n-1];
+};
+
+// 乘积最大子数组
+const maxProduct = function(nums) {
+    const n = nums.length;
+    let maxDp = nums[0];
+    let minDp = nums[0];
+    let result = maxDp;
+
+    for (let i = 1; i < n; i ++) {
+        const prevMax = maxDp;
+
+        maxDp = Math.max(nums[i], Math.max(prevMax * nums[i], minDp * nums[i]));
+        minDp = Math.min(nums[i], Math.min(prevMax * nums[i], minDp * nums[i]));
+    
+        result = Math.max(result, maxDp);
+    }
+
+    return result;
+};
