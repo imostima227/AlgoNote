@@ -61,3 +61,26 @@ const lowestCommonAncestor1 = function(root, p, q) {
     
     return left ? left : right;
 }
+
+// 括号生成
+const generateParenthesis = function(n) {
+    let ans = [];
+    const dfs = function(s, left, right) {
+        if (left === n && right === n) {
+            ans.push(s);
+            return;
+        }
+
+        if (left < n) {
+            dfs(s + '(', left + 1, right);
+        }
+
+        if (right < left) {
+            dfs(s + ')', left, right + 1);
+        }
+    }
+
+    dfs('', 0, 0);
+
+    return ans;
+};

@@ -95,3 +95,23 @@ class LRUCache {
         }
     }
 }
+
+const groupAnagrams = function(strs) {
+    const map = new Map();
+    
+    for (const str of strs) {
+        const cnt = Array(26).fill(0); // str中每个字母的个数
+        for (const ch of str) {
+            const idx = ch.charCodeAt(0) - 'a'.charCodeAt(0);
+            cnt[idx] ++;
+        }
+        const key = cnt.toString();
+        if (!map.has(key)) {
+            map.set(key, [str]);
+        } else {
+            map.get(key).push(str);
+        }
+    }
+
+    return Array.from(map.values());
+};

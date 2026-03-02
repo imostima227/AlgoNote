@@ -58,3 +58,112 @@ const productExceptSelfBest = function(nums) {
 
     return res;
 }
+
+// 汉明距离
+const hammingDistanceOld = function(x, y) {
+    let ans = 0;
+
+    const to2String = function(num){
+        let s = '';
+        while (num > 0) {
+            let y = num % 2;
+            s += String(y);
+            num = Math.floor(num / 2);
+        }
+
+        return s;
+    };
+
+    let sX = to2String(x);
+    let sY = to2String(y);
+
+    let len = Math.max(sX.length, sY.length);
+    while (sX.length < len) {
+        sX += '0';
+    }
+
+    while (sY.length < len) {
+        sY += '0';
+    }
+
+    for (let i = 0; i < len; i++) {
+        if (sX[i] !== sY[i]) ans ++;
+    }
+
+    return ans;
+    
+};
+
+const hammingDistance = function(x, y) {
+    let xoy = x ^ y;
+    let ans = 0;
+
+    while (xoy) {
+        ans += xoy & 1;
+        xoy >>= 1;
+    }
+
+    return ans;
+}
+
+// 移动零
+// 快慢指针
+const moveZeroes = function(nums) {
+    let left = 0, right = 0;
+    while (right < nums.length) {
+        if (nums[right] !== 0) {
+            if (right > left) {
+                [nums[left], nums[right]] = [nums[right], nums[left]];
+            }
+            left ++;
+        }
+        right ++;
+    }
+};
+
+// 盛最多水的容器
+const maxArea = function(height) {
+    let ans = 0;
+    let left = 0, right = height.length - 1;
+
+    while (left < right) {
+        const v = (right - left) * Math.min(height[right],height[left]);
+        ans = Math.max(ans, v);
+
+        if (height[left] < height[right]) {
+            left ++;
+        } else {
+            right --;
+        }
+    }
+
+    return ans;
+};
+
+// 合并区间
+const merge = function(intervals) {
+    if (intervals.length === 1) return intervals;
+    intervals.sort((a, b) => a[0] - b[0]);
+
+    const ans = [intervals[0]];
+
+    for (let i = 1; i < intervals.length; i++) {
+        const curr = intervals[i];
+
+        const last = ans[ans.length - 1];
+        
+        if (curr[0] <= last[1]) {
+            last[1] = Math.max(last[1], curr[1]);
+        } else {
+            ans.push(curr);
+        }
+    }
+
+    return ans;
+};
+
+function main() {
+    console.log(hammingDistance(1,4));
+}
+
+main();

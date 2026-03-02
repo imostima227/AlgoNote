@@ -118,6 +118,27 @@ const lowestCommonAncestor1 = function(root, p, q) {
     return null;
 };
 
+// 把二叉搜索树转化为累加树
+const convertBST = function(root) {
+    if (!root) return root;
+    let sum = 0;
+
+    const dfs = function(node) {
+        if (!node) return;
+
+        dfs(node.right);
+
+        sum += node.val;
+        node.val = sum;
+
+        dfs(node.left);
+    }
+
+    dfs(root);
+
+    return root;
+};
+
 function main() {
     const nums = [6,2,8,0,4,7,9,null,null,3,5];
     const p = 2, q = 8;

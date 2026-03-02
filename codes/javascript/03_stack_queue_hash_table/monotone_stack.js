@@ -52,6 +52,37 @@ const removeDuplicateLetters = function(s) {
     return stack.join('');
 };
 
+// 买卖股票的最佳实际(并非最佳实践)
+const maxProfitOld = function(prices) {
+    const stack = [];
+    let profit = 0;
+
+    for (let i = 0; i < prices.length; i++) {
+        while (stack.length > 0 && stack.at(-1) > prices[i]) {
+            stack.pop();
+        }
+        profit = Math.max(profit, stack.length ? prices[i] - stack[0] : 0);
+        stack.push(prices[i]);
+    }
+
+    return profit;
+};
+
+const maxProfit = function(prices) {
+    let minPrice = Infinity;
+    let profit = 0;
+
+    for (const price of prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        } else if (price - minPrice > profit) {
+            profit = price - minPrice;
+        }
+    }
+
+    return profit;
+}
+
 function main() {
     const n1 = [4,1,2];
     const n2 = [1,3,4,2];
